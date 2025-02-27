@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Exelentic - Effizienz durch Automatisierung und KI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Shoelace CSS & Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.0/cdn/themes/light.css" />
+  <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.0/cdn/shoelace-autoloader.js"></script>
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-dyZQ0j1KQYQZugcdG6r2qf8T7PfGdJ4dKCPf3wclQizV8kZoFm6OaX5ZU6W3R4V0+rQnZP8ePJJ1v+t+z+6bVQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    /* Global Reset */
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+    /* Global Styles */
+    body {
+      font-family: sans-serif;
+      color: #333;
+      background-color: #f9f9f9;
+      overflow-x: hidden;
+      position: relative;
+    }
+    /* Hero Section */
+    .header {
+      position: relative;
+      text-align: center;
+      background: linear-gradient(60deg, rgba(84,58,183,1) 0%, rgba(0,172,193,1) 100%);
+      color: white;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .text-container {
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      padding: 40px 60px;
+      border-radius: 20px;
+      box-shadow: 0 6px 10px rgba(0,0,0,0.15);
+      max-width: 80%;
+      margin-bottom: 30px;
+      border: 1px solid rgba(255,255,255,0.4);
+    }
+    .hero-content h1 {
+      font-size: 48px;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 20px;
+      color: #0a3458;
+    }
+    .hero-content a.button {
+      padding: 15px 40px;
+      font-size: 18px;
+      background-color: #0a3458;
+      color: #fff;
+      text-decoration: none;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .hero-content a.button:hover {
+      background-color: #073a65;
+    }
+    /* Moving Shapes */
+    .moving-shapes div {
+      position: absolute;
+      animation: float-random 15s infinite ease-in-out;
+    }
+    .moving-shapes .circle {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      top: 10%;
+      left: 20%;
+      animation-duration: 18s;
+    }
+    .moving-shapes .square {
+      width: 40px;
+      height: 40px;
+      background: rgba(255,255,255,0.2);
+      top: 30%;
+      left: 70%;
+      animation-duration: 22s;
+    }
+    .moving-shapes .small-circle {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      top: 50%;
+      left: 40%;
+      animation-duration: 20s;
+    }
+    .moving-shapes .large-circle {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      top: 70%;
+      left: 10%;
+      animation-duration: 25s;
+    }
+    .moving-shapes .triangle {
+      width: 0;
+      height: 0;
+      border-left: 25px solid transparent;
+      border-right: 25px solid transparent;
+      border-bottom: 40px solid rgba(255,255,255,0.2);
+      top: 15%;
+      left: 50%;
+      animation-duration: 18s;
+    }
+    .moving-shapes .small-triangle {
+      width: 0;
+      height: 0;
+      border-left: 15px solid transparent;
+      border-right: 15px solid transparent;
+      border-bottom: 25px solid rgba(255,255,255,0.2);
+      top: 60%;
+      left: 80%;
+      animation-duration: 16s;
+    }
+    @keyframes float-random {
+      0% { transform: translate(0,0) rotate(0deg); opacity:1; }
+      25% { transform: translate(40px, -40px) rotate(90deg); opacity:0.9; }
+      50% { transform: translate(-40px, 60px) rotate(180deg); opacity:0.8; }
+      75% { transform: translate(60px, -20px) rotate(270deg); opacity:0.9; }
+      100% { transform: translate(0,0) rotate(360deg); opacity:1; }
+    }
+    /* Waves */
+    .waves {
+      --wave-blank: 5rem;
+      --wave-width: 100vw;
+      --wave-height: 4rem;
+      position: absolute;
+      bottom: 0;
+      width: var(--wave-width);
+      height: calc(var(--wave-height) + var(--wave-blank));
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 999;
+    }
+    .waves::before {
+      position: absolute;
+      content: "";
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: var(--wave-blank);
+      background: white;
+    }
+    .wave {
+      position: absolute;
+      bottom: calc(var(--wave-y-offset) * -1 + var(--wave-blank));
+      width: 200%;
+      height: var(--wave-height);
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'%0AviewBox='0 24 176 36' preserveAspectRatio='none' shape-rendering='auto'%3E%3Cpath d='M-160 44c30 0 58-18 88-18s58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z' fill='white'%3E%3C/path%3E%3C/svg%3E") 0 0 / var(--wave-width) 100%;
+      opacity: var(--wave-opacity);
+      animation: wave var(--wave-duration) var(--wave-delay) cubic-bezier(0.6,0.5,0.4,0.5) infinite;
+    }
+    .wave:nth-child(1) { --wave-y-offset: 0px; --wave-opacity: 0.7; --wave-duration: 7s; --wave-delay: -2s; }
+    .wave:nth-child(2) { --wave-y-offset: 10px; --wave-opacity: 0.5; --wave-duration: 10s; --wave-delay: -4s; }
+    .wave:nth-child(3) { --wave-y-offset: 20px; --wave-opacity: 0.3; --wave-duration: 14s; --wave-delay: -6s; }
+    .wave:nth-child(4) { --wave-y-offset: 30px; --wave-opacity: 1; --wave-duration: 21s; --wave-delay: -8s; }
+    @keyframes wave {
+      from { transform: translateX(calc(var(--wave-width) * -1)); }
+      to { transform: translateX(0); }
+    }
+    /* Info Section */
+    #info {
+      padding: 60px 20px;
+      background-color: #fff;
+      color: #0a3458;
+    }
+    #info .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    #info h2 {
+      font-size: 32px;
+      margin-bottom: 20px;
+      border-bottom: 2px solid royalblue;
+      padding-bottom: 10px;
+    }
+    .subheading {
+      font-size: 24px;
+      margin-top: 30px;
+      margin-bottom: 15px;
+    }
+    #info p {
+      font-size: 18px;
+      line-height: 1.6;
+      margin-bottom: 30px;
+    }
+    #info ul {
+      margin-bottom: 30px;
+      padding-left: 20px;
+    }
+    #info li {
+      font-size: 18px;
+      line-height: 1.6;
+      margin-bottom: 10px;
+    }
+    /* Branding Cards (Our previous and planned style elements) */
+    .branding-container {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+      margin-top: 40px;
+    }
+    .branding-card {
+      background: #f3f3f3;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    .branding-card .icon {
+      font-size: 32px;
+      color: #007BFF;
+    }
+    .branding-card .content h3 {
+      margin-bottom: 10px;
+      color: #0a3458;
+    }
+    .branding-card .content ul {
+      list-style-type: disc;
+      margin-left: 20px;
+    }
+    .color-palette {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .color-box {
+      width: 100px;
+      height: 100px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: bold;
+      text-transform: uppercase;
+      color: white;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
+    }
+    .color-box.white {
+      color: #333;
+      text-shadow: none;
+    }
+    .planned-colors {
+      margin-bottom: 20px;
+    }
+    /* Presentations Section */
+    #presentations {
+      padding: 60px 20px;
+      background-color: #fff;
+      color: #0a3458;
+    }
+    #presentations .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .website-links {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 18px;
+    }
+    .website-links a {
+      color: #0a3458;
+      text-decoration: none;
+      font-weight: bold;
+      margin: 0 10px;
+    }
+    .website-links a:hover {
+      text-decoration: underline;
+    }
+    #presentations h2 {
+      font-size: 32px;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid royalblue;
+    }
+    #presentations iframe {
+      width: 100%;
+      max-width: 960px;
+      height: 569px;
+      border: none;
+    }
+    #presentations .old-iframe {
+      width: 100%;
+      max-width: 1280px;
+      height: 749px;
+      border: none;
+    }
+    #presentations p {
+      font-size: 18px;
+      margin-top: 20px;
+    }
+    .draft-note {
+      font-size: 18px;
+      margin-top: 10px;
+      color: #555;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Hero Section -->
+  <div class="header">
+    <div class="text-container">
+      <div class="hero-content">
+        <h1 data-key="s1_heading">Exelentic Branding Guide</h1>
+        <a href="#info" class="button" data-key="s1_button">Learn More</a>
+      </div>
+    </div>
+    <div class="moving-shapes">
+      <div class="circle"></div>
+      <div class="square"></div>
+      <div class="small-circle"></div>
+      <div class="large-circle"></div>
+      <div class="triangle"></div>
+      <div class="small-triangle"></div>
+    </div>
+    <div class="waves">
+      <div class="wave"></div>
+      <div class="wave"></div>
+      <div class="wave"></div>
+      <div class="wave"></div>
+    </div>
+  </div>
+
+  <!-- Info Section with Updated Text and Branding Cards -->
+  <section id="info">
+    <div class="container">
+      <h2>Who is Exelentic?</h2>
+      <p>Exelentic is a market leading solution provider in the IT industry. We optimize business processes using robotic process automation (RPA) and artificial intelligence (AI) for our customers.</p>
+      
+      <h2>What do we do?</h2>
+      <p>We consult our customers on their automation projects from start to finish, including (but not limited to) the following topics:</p>
+      <ul>
+        <li>Analysis and optimization of business processes</li>
+        <li>Identification of automation potential</li>
+        <li>Development of software robots that can execute the identified business processes automatically (and unattended)</li>
+        <li>Operational operation and monitoring of the automation platform</li>
+        <li>Development of concepts, guidelines, tools and strategies for setting up automation competence centers</li>
+      </ul>
+      <p><strong>Examples of business processes:</strong> the procurement process, customer invoicing, new hire onboarding, processing expenses, …</p>
+      
+      <h3 class="subheading">The benefits our clients get out of this:</h3>
+      <ul>
+        <li>Significantly higher processing volume possible</li>
+        <li>Simple cushioning of processing peaks</li>
+        <li>Significant cost savings</li>
+        <li>Higher motivation among employees, as they no longer have to do monotonous, repetitive work on the computer</li>
+        <li>Significant reduction in data and processing errors</li>
+      </ul>
+      <p>In other words: We help our clients to automate business processes that consist of repetitive, error-prone and tedious tasks. This enables companies to significantly reduce error rates and cut costs. And employees have more time for value-adding work, can make much better use of their personal (human) strengths and are therefore more motivated and enthusiastic about their work.</p>
+      
+      <h3 class="subheading">Our goals are</h3>
+      <ul>
+        <li>Development of robust, high-performance software robots</li>
+        <li>High quality in project implementation</li>
+        <li>Long-term customer relationships</li>
+        <li>Satisfied customers</li>
+      </ul>
+      
+      <h2>What do we need?</h2>
+      <p>We are currently in the process of developing a (new) brand concept. The centerpiece will be a new company logo (previously there was only the lettering “Exelentic - If you hate it, automate it”). We already have suggestions for colors and fonts. However, these have not yet been finalized and can still be adapted.</p>
+      
+      <h3 class="subheading">What we therefore need is</h3>
+      <ul>
+        <li>a design draft of a logo that meets the following criteria:
+          <ul>
+            <li>simple (examples: Apple, Nike, Adidas, McDonald's, Google, Microsoft, Amazon, Lufthansa)</li>
+            <li>it should be recognizable/give an idea of what we do</li>
+            <li>one color, max. two colors</li>
+            <li>striking &amp; clear</li>
+          </ul>
+        </li>
+        <li>suggestions of differing colors if you feel it makes sense.</li>
+        <li>suggestions of differing font types if you feel it makes sense.</li>
+      </ul>
+      
+      <h2>Our previous and planned style elements</h2>
+      <div class="branding-container">
+        <!-- Fonts Card -->
+        <div class="branding-card">
+          <div class="icon"><sl-icon name="type"></sl-icon></div>
+          <div class="content">
+            <h3>Fonts</h3>
+            <ul>
+              <li>Roboto</li>
+              <li>Neue Haas Grotesk</li>
+              <li>Poppins</li>
+            </ul>
+          </div>
+        </div>
+        
+        <!-- Colors Card -->
+        <div class="branding-card">
+          <div class="icon"><sl-icon name="palette"></sl-icon></div>
+          <div class="content">
+            <h3>Colors</h3>
+            <h4>Planned Colors</h4>
+            <div class="color-palette planned-colors">
+              <div class="color-box" style="background-color: #0a3458;"><span>#0a3458</span></div>
+              <div class="color-box" style="background-color: #543ab7;"><span>#543ab7</span></div>
+              <div class="color-box" style="background-color: #007BFF;"><span>#007BFF</span></div>
+              <div class="color-box white" style="background-color: #ffffff; border: 1px solid #ccc;"><span>#ffffff</span></div>
+            </div>
+            <h4>Previous Colors</h4>
+            <div class="color-palette">
+              <div class="color-box white" style="background-color: #ffffff; border: 1px solid #ccc;"><span>#ffffff</span></div>
+              <div class="color-box" style="background-color: #2173D1;"><span>#2173D1</span></div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Visual Elements Card -->
+        <div class="branding-card">
+          <div class="icon"><sl-icon name="image"></sl-icon></div>
+          <div class="content">
+            <h3>Visual Elements</h3>
+            <p>Simple geometric shapes with rounded edges.<br><br><strong>Suggested elements:</strong> cogwheel, robotic arm, computer, robot, letter E.</p>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </section>
+
+  <!-- Presentations Section -->
+  <section id="presentations">
+    <div class="container">
+      <div class="website-links">
+        Visit our 
+        <a href="https://www.exelentic.com/" target="_blank" rel="noopener">Old Website</a> | 
+        <a href="https://renaneuzebio.github.io/website-2025/" target="_blank" rel="noopener">New Website</a>
+      </div>
+      <h2>Current/ planned presentation style:</h2>
+      <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vSkvoxlQymtrQJVzeYSUiW_JPVQ9Zl7cqLq6fP40SqavbyVMM5Tmyast8QQNt5osOH5z4NsVaP2L4Ak/embed?start=false&loop=false&delayms=3000" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+      <p class="draft-note">Note: This presentation style is a draft and can be adjusted if recommended.</p>
+      
+      <h2 style="margin-top:40px;">Old presentation style:</h2>
+      <iframe class="old-iframe" src="https://docs.google.com/presentation/d/e/2PACX-1vRv1Zb7MprBpjp7uV2NxeOuwwVe4SndHvrHTt5GFwfGOk962a4Y0NKQl4513woSfA/embed?start=false&loop=false&delayms=3000" frameborder="0" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+      <p>Note: Some information is omitted for business privacy. The intent of displaying these presentations is to understand the styles. We would like to move away from the inconsistent older style and adopt a modern and clean design.</p>
+    </div>
+  </section>
+
+</body>
+</html>
